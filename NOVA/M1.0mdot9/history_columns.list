@@ -1,0 +1,39 @@
+! the first few lines of the log file contain parameter values as of the start of the run
+! for completeness, those items are described here:
+   
+   ! initial_mass -- star mass at start of run (Msun units)
+   ! initial_z -- starting metallicity
+   ! h1_boundary_limit -- defines abundance limit for h1_boundary_mass 
+   ! he4_boundary_limit -- defines abundance limit for he4_boundary_mass
+   ! burn_min1 -- 1st limit for reported burning, in erg/g/s
+   ! burn_min2 -- 2nd limit for reported burning, in erg/g/s
+
+
+   
+      model_number ! counting from the start of the run
+      star_age ! elapsed simulated time in years since the start of the run
+      star_mass ! in Msun units
+      star_mdot ! d(star_mass)/dt (in msolar per year)
+      log_dt ! log10 time_step
+      conv_mx1_top
+      conv_mx1_bot
+      log_LH ! log10 power_h_burn
+      log_LHe ! log10 power_he_burn
+      log_L ! log10 luminosity in Lsun units
+      log_Teff ! log10 effective temperature
+      log_R_cm
+      log_center_T ! temperature
+      log_center_Rho ! density
+      log_center_P ! pressure
+      center_degeneracy ! the electron chemical potential in units of k*T
+      center_gamma ! plasma interaction parameter at the centermost meshpoint.
+      
+
+   ! log10 total ergs/sec for reaction categories (Lsun units)
+      
+      pp
+      cno
+      tri_alfa
+      !c12_alfa
+      !n14_alfa
+      !o16_alfa

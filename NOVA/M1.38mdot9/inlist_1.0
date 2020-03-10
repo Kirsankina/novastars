@@ -1,0 +1,310 @@
+
+! inlist_co_nova
+
+
+&star_job
+
+      show_log_description_at_start = .false.
+      
+      load_saved_model = .true.
+      saved_model_name = '1.376_Tc_3e7.mod' 
+
+      save_model_when_terminate = .true.
+      save_model_filename = 'final.mod'
+      
+      write_profile_when_terminate = .true.
+      filename_for_profile_when_terminate = 'final_profile.data'
+
+      change_initial_net = .true.      
+      new_net_name = 'cno_extras_o18_to_mg26_plus_fe56.net'
+      auto_extend_net = .false.
+
+      change_v_flag = .true.
+      new_v_flag = .true.
+
+      set_initial_age = .true.
+      initial_age = 0 ! in years
+
+      set_initial_model_number = .true.
+      initial_model_number = 0
+
+      set_tau_factor = .true.
+      set_to_this_tau_factor = 30
+      
+!      set_initial_dt = .true.
+!      years_for_initial_dt = 1d-4
+
+       pgstar_flag = .true.
+
+
+/ ! end of star_job namelist
+
+
+&controls
+
+      ! check for retries and backups as part of test_suite
+      ! you can/should delete this for use outside of test_suite
+         max_number_backups = 110
+         max_number_retries = 180
+         max_model_number = 5000
+
+      initial_mass = 1.376
+      initial_z = 0.02d0
+      
+      use_Type2_opacities = .true.
+      Zbase = 0.02d0
+
+      mass_change_full_on_dt = 1d-6 ! (seconds)
+      mass_change_full_off_dt = 1d-6 ! (seconds)
+
+      ! NOTE: for super eddington wind,
+      ! we use Ledd averaged over mass to optical depth tau = 100
+      super_eddington_wind_eta = 1
+         ! parameter for mass loss driven by super Eddington luminosity        
+      super_eddington_wind_Ledd_factor = 1
+         ! multiply Ledd by this factor when computing super Eddington wind
+         ! e.g., if this is 2, then only get wind when L > 2*Ledd
+
+
+      mixing_length_alpha = 1.9
+      MLT_option = 'Henyey'
+
+      use_Ledoux_criterion = .true.
+      alpha_semiconvection = 1d-3
+      thermohaline_coeff = 1d3
+      
+         
+
+      logQ_limit = 100
+      gamma_center_limit = 1000 ! FOR THIS TEST
+            
+      star_mass_max_limit = 1.4d0
+   
+      mass_change = 1d-9
+
+      photostep = 50
+      profile_interval = 10
+      max_num_profile_models = 3000
+      history_interval = 1
+      terminal_cnt = 5
+      write_header_frequency = 10
+      
+      min_timestep_limit = 1d-12
+
+                  
+      RGB_wind_scheme = ''
+      AGB_wind_scheme = ''
+
+      xa_function_species(1) = 'h1'  ! name of nuclide as defined in chem_def
+      xa_function_weight(1) = 20
+      xa_function_param(1) = 1d-6
+      xa_function_species(2) = 'he4'  ! name of nuclide as defined in chem_def
+      xa_function_weight(2) = 20
+      xa_function_param(2) = 1d-2
+
+!      delta_lgL_H_limit = 0.01 ! limit for magnitude of change in lgL_H
+      delta_lgL_H_limit = 0.1 ! limit for magnitude of change in lgL_H
+      lgL_H_burn_min = -0.5 ! ignore changes in lgL_H if value is less than this
+
+!      delta_lgL_He_limit = 0.025 ! limit for magnitude of change in lgL_He
+      delta_lgL_He_limit = 0.25 ! limit for magnitude of change in lgL_He
+      lgL_He_burn_min = 2.5 ! ignore changes in lgL_He if value is less than this
+      
+      delta_lgRho_limit = 1 ! limit for magnitude of max change in log10 density at any point
+      delta_lgRho_hard_limit = -1
+
+      delta_lgT_limit = 0.5
+      delta_lgL_limit = 0.05
+      delta_lgTeff_limit = 0.10 
+
+
+
+      accrete_same_as_surface = .false. 
+      accretion_h1 = 0.7000 ! Estimate Nomoto 2007
+      accretion_h2 = 0
+      accretion_he3 = 0.292910D-04
+      accretion_he4 = 0.279971 ! Estimated Nomoto 2007
+      accretion_zfracs = 4 ! Lodders 03
+
+      which_atm_option = 'grey_and_kap'
+      Pextra_factor = -1
+
+      varcontrol_target = 3d-4
+
+      mesh_delta_coeff = 1.5
+      max_allowed_nz = 20000
+      
+      tol_max_correction = 3d-2
+
+      ! FOR DEBUGGING
+
+      !report_hydro_solver_progress = .true. ! set true to see info about newton iterations
+      !report_ierr = .true. ! if true, produce terminal output when have some internal error
+      
+      !max_years_for_timestep = 3.67628942044319d-05
+
+      !report_why_dt_limits = .true.
+      !report_all_dt_limits = .true.
+      
+      !show_mesh_changes = .true.
+      !mesh_dump_call_number = 5189
+      !okay_to_remesh = .false.
+      
+      !trace_evolve = .true.
+      
+
+      ! hydro debugging
+      !hydro_check_everything = .true.
+      !hydro_inspectB_flag = .true.
+      
+      !hydro_numerical_jacobian = .true.
+      !hydro_save_numjac_plot_data = .true.
+      !small_mtx_decsol = 'lapack'
+      !large_mtx_decsol = 'lapack'
+      !hydro_dump_call_number = 195
+
+/ ! end of controls namelist
+
+
+
+&pgstar
+
+         Grid6_win_flag = .true.
+
+         Grid6_win_width = 13
+         Grid6_win_aspect_ratio = 0.5 ! aspect_ratio = height/width
+         
+         Grid6_xleft = 0.05 ! fraction of full window width for margin on left
+         Grid6_xright = 0.95 ! fraction of full window width for margin on right
+         Grid6_ybot = 0.05 ! fraction of full window width for margin on bottom
+         Grid6_ytop = 0.95 ! fraction of full window width for margin on top
+         Grid6_title = ''
+
+         ! set default
+         Grid6_num_cols = 5 ! divide plotting region into this many equal width cols
+         Grid6_num_rows = 5 ! divide plotting region into this many equal height rows
+         Grid6_num_plots = 6 ! <= 10
+         
+         Grid6_plot_name(1) = 'TRho_Profile'
+         show_TRho_Profile_legend = .true
+         show_TRho_Profile_kap_regions = .false.
+         show_TRho_Profile_eos_regions = .true.
+         Grid6_plot_row(1) = 1 ! number from 1 at top
+         Grid6_plot_rowspan(1) = 3 ! plot spans this number of rows
+         Grid6_plot_col(1) =  4 ! number from 1 at left
+         Grid6_plot_colspan(1) = 2 ! plot spans this number of columns 
+         Grid6_plot_pad_left(1) = 0.03 ! fraction of full window width for padding on left
+         Grid6_plot_pad_right(1) = 0.00 ! fraction of full window width for padding on right
+         Grid6_plot_pad_top(1) = 0.0 ! fraction of full window height for padding at top
+         Grid6_plot_pad_bot(1) = 0.07 ! fraction of full window height for padding at bottom
+         Grid6_txt_scale_factor(1) = 0.8 ! multiply txt_scale for subplot by this
+         
+         Grid6_plot_name(2) = 'Power'
+         Grid6_plot_row(2) = 4 ! number from 1 at top
+         Grid6_plot_rowspan(2) = 2 ! plot spans this number of rows
+         Grid6_plot_col(2) =  4 ! number from 1 at left
+         Grid6_plot_colspan(2) = 2 ! plot spans this number of columns 
+         Grid6_plot_pad_left(2) = 0.03 ! fraction of full window width for padding on left
+         Grid6_plot_pad_right(2) = 0.00 ! fraction of full window width for padding on right
+         Grid6_plot_pad_top(2) = 0.05 ! fraction of full window height for padding at top
+         Grid6_plot_pad_bot(2) = 0.03 ! fraction of full window height for padding at bottom
+         Grid6_txt_scale_factor(2) = 0.8 ! multiply txt_scale for subplot by this
+         Power_xaxis_name = 'logxq' 
+         Power_xaxis_reversed = .true.
+         Power_xmin = -14 ! -101d0 ! only used if /= -101d0
+         Power_xmax = -3 ! -101d0 ! only used if /= -101d0
+
+         Grid6_plot_name(3) = 'HR'
+         Grid6_plot_row(3) = 1 ! number from 1 at top
+         Grid6_plot_rowspan(3) = 3 ! plot spans this number of rows
+         Grid6_plot_col(3) = 2 ! number from 1 at left
+         Grid6_plot_colspan(3) = 2 ! plot spans this number of columns 
+         Grid6_plot_pad_left(3) = 0.00 ! fraction of full window width for padding on left
+         Grid6_plot_pad_right(3) = 0.03 ! fraction of full window width for padding on right
+         Grid6_plot_pad_top(3) = 0.00 ! fraction of full window height for padding at top
+         Grid6_plot_pad_bot(3) = 0.07 ! fraction of full window height for padding at bottom
+         Grid6_txt_scale_factor(3) = 0.8 ! multiply txt_scale for subplot by this
+         
+         Grid6_plot_name(4) = 'Abundance'
+         Grid6_plot_row(4) = 4 ! number from 1 at top
+         Grid6_plot_rowspan(4) = 2 ! plot spans this number of rows
+         Grid6_plot_col(4) =  2 ! number from 1 at left
+         Grid6_plot_colspan(4) = 2 ! plot spans this number of columns 
+         Grid6_plot_pad_left(4) = 0.00 ! fraction of full window width for padding on left
+         Grid6_plot_pad_right(4) = 0.03 ! fraction of full window width for padding on right
+         Grid6_plot_pad_top(4) = 0.05 ! fraction of full window height for padding at top
+         Grid6_plot_pad_bot(4) = 0.03 ! fraction of full window height for padding at bottom
+         Grid6_txt_scale_factor(4) = 0.8 ! multiply txt_scale for subplot by this
+         Abundance_legend_max_cnt = 0
+         Abundance_xaxis_name = 'logxq' 
+         Abundance_xaxis_reversed = .true.
+         Abundance_xmin = -14 ! -101d0 ! only used if /= -101d0
+         Abundance_xmax = -3 ! -101d0 ! only used if /= -101d0
+         Grid6_plot_name(5) = 'Text_Summary1'
+          Text_Summary1_num_rows = 20 ! <= 20
+         Text_Summary1_num_cols = 1 ! <= 20
+         Text_Summary1_name(:,:) = ''
+         Text_Summary1_name(1,1) = 'log_star_age'
+         Text_Summary1_name(2,1) = 'log_dt'
+         Text_Summary1_name(3,1) = 'log_L'
+         Text_Summary1_name(4,1) = 'log_Teff'
+         Text_Summary1_name(5,1) = 'log_R'
+         Text_Summary1_name(6,1) = 'log_g'
+         Text_Summary1_name(7,1) = 'star_mass'
+         Text_Summary1_name(8,1) = 'log_abs_mdot'
+         Text_Summary1_name(9,1) = 'he_core_mass'
+         Text_Summary1_name(10,1) = 'c_core_mass'
+         Text_Summary1_name(11,1) = 'cz_bot_mass'
+         Text_Summary1_name(12,1) = 'cz_top_mass'
+         Text_Summary1_name(13,1) = 'cz_bot_radius'
+         Text_Summary1_name(14,1) = 'cz_top_radius'         
+         Text_Summary1_name(15,1) = 'log_cntr_T'
+         Text_Summary1_name(16,1) = 'log_cntr_Rho'
+         Text_Summary1_name(17,1) = 'log_center_P'
+         Text_Summary1_name(18,1) = 'center h1'
+         Text_Summary1_name(19,1) = 'center he4'
+         Text_Summary1_name(20,1) = 'center c12'
+
+         Grid6_plot_row(5) = 1 ! number from 1 at top
+         Grid6_plot_rowspan(5) = 4 ! plot spans this number of rows
+         Grid6_plot_col(5) =  1 ! number from 1 at left
+         Grid6_plot_colspan(5) = 1 ! plot spans this number of columns 
+         Grid6_plot_pad_left(5) = -0.06 ! fraction of full window width for padding on left
+         Grid6_plot_pad_right(5) = 0.04 ! fraction of full window width for padding on right
+         Grid6_plot_pad_top(5) = -0.05 ! fraction of full window height for padding at top
+         Grid6_plot_pad_bot(5) = 0.02 ! fraction of full window height for padding at bottom
+         Grid6_txt_scale_factor(5) = 0.25 ! multiply txt_scale for subplot by this
+
+         Grid6_plot_name(6) = 'Text_Summary2'
+          Text_Summary2_num_rows = 8 ! <= 20
+         Text_Summary2_num_cols = 1 ! <= 20
+         Text_Summary2_name(:,:) = ''
+         Text_Summary2_name(1,1) = 'center n14'
+         Text_Summary2_name(2,1) = 'center o16'
+         Text_Summary2_name(3,1) = 'log_Lnuc'
+         Text_Summary2_name(4,1) = 'log_Lneu'
+         Text_Summary2_name(5,1) = 'log_LH'
+         Text_Summary2_name(6,1) = 'log_LHe'
+         Text_Summary2_name(7,1) = 'log_LZ'
+         Text_Summary2_name(8,1) = 'model_number'
+         Grid6_plot_row(6) = 5 ! number from 1 at top
+         Grid6_plot_rowspan(6) = 1 ! plot spans this number of rows
+         Grid6_plot_col(6) =  1 ! number from 1 at left
+         Grid6_plot_colspan(6) = 1 ! plot spans this number of columns 
+         Grid6_plot_pad_left(6) = -0.06 ! fraction of full window width for padding on left
+         Grid6_plot_pad_right(6) = 0.04 ! fraction of full window width for padding on right
+         Grid6_plot_pad_top(6) =  -0.01 ! fraction of full window height for padding at top
+         Grid6_plot_pad_bot(6) = -0.06 ! fraction of full window height for padding at bottom
+         Grid6_txt_scale_factor(6) = 0.25 ! multiply txt_scale for subplot by this
+         
+        ! file output
+         Grid6_file_flag = .true.
+         Grid6_file_dir = 'png'
+         Grid6_file_prefix = 'grid_'
+         Grid6_file_cnt = 2 ! output when mod(model_number,Grid6_file_cnt)==0
+         Grid6_file_width = -1 ! (inches) negative means use same value as for window
+         Grid6_file_aspect_ratio = -1 ! negative means use same value as for window
+   
+/ ! end of pgstar namelist
+
+
