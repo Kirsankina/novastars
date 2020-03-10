@@ -36,7 +36,7 @@ def EX1():
 	col = ['r-', 'b-', 'g-']
 	ci = 0
 	for S in stars:
-	    name = '/C:/University/NOVA/M'+S+'/LOGS/history.data'
+	    name = 'C:/University/NOVA/M'+S+'/LOGS/history.data'
 	    data = ascii.read(name, header_start=4, data_start=5)
 	    t = data['star_age']
 	    lgL = data['log_L']
